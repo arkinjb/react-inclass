@@ -6,6 +6,73 @@
   <link rel="stylesheet" href="/css/style.css" type="text/css">
 </head>
 <body>
+  <div id="container"></div>
 
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.min.js"></script>
+  <script type="text/jsx">
+    /** @jsx React.DOM */
+
+    var Post = function( info ){
+      this.title = info.title;
+      this.author = info.author;
+      this.body = info.body;
+      this.comments = info.comments;
+    }
+
+    var post = new Post({
+      title: "My First Post",
+      author: "Adrian",
+      body: "Check it out. This is the first post on my dope blog!",
+      comments: [ "First!", "Second!", "This blog sucks." ]
+    });
+
+    var PostView = React.createClass({
+      getInitialState: function(){
+        return {
+          body: this.props.body
+        }
+      },
+
+      editPost: function(){
+        var newBody = prompt( "What would you like your post to say?" );
+        this.setState({
+          body: newBody
+        })
+      },
+
+      render: function(){
+        return (
+          <div class="post">
+            <h2>Hello {this.props.title}</h2>
+            <h4>By {this.props.author}</h4>
+            <p>{this.state.body}</p>
+            <button onClick={ this.editPost }>Edit Post</button>
+            <h3>Comments</h3>
+              <CommentView commentBody={post.comments[0]}/>
+              <CommentView commentBody={post.comments[1]}/>
+              <CommentView commentBody={post.comments[2]}/>
+          </div>
+        );
+      }
+    });
+
+    var CommentView = React.createClass({
+      render: function(){
+        return (
+          <p>{this.props.commentBody}</p>
+        );
+      }
+    })
+
+    React.render(
+      <PostView
+        title={post.title}
+        author={post.author}
+        body={post.body}
+      />,
+      document.getElementById( "container" )
+    );
+  </script>
 </body>
 </html>
