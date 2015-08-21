@@ -30,7 +30,7 @@
     var PostView = React.createClass({
       getInitialState: function(){
         return {
-          body: this.props.body
+          body: post.body
         }
       },
 
@@ -49,9 +49,9 @@
             <p>{this.state.body}</p>
             <button onClick={ this.editPost }>Edit Post</button>
             <h3>Comments</h3>
-              <CommentView commentBody={post.comments[0]}/>
-              <CommentView commentBody={post.comments[1]}/>
-              <CommentView commentBody={post.comments[2]}/>
+              {post.comments.map( function( result ){
+                return <CommentView commentBody={result}/>
+              })}
           </div>
         );
       }
